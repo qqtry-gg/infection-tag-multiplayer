@@ -153,6 +153,18 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+        }
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                GetComponent<PlayerInput>().enabled = false;
+                if (CinemachineCameraTarget != null)
+                {
+                    CinemachineCameraTarget.SetActive(false);
+                }
+            }
         }
 
         private void Update()
@@ -167,10 +179,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!IsOwner)
-            {
-                if (_mainCamera != null) _mainCamera.SetActive(false);
-            }
+            if (!IsOwner) return;
             CameraRotation();
         }
 
